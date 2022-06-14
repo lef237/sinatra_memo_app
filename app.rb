@@ -1,5 +1,6 @@
 require 'sinatra'
+require 'sinatra/reloader'
 
 get '/' do
-  'hello'
+  'リロードだけで変更が反映される！！'
 end
