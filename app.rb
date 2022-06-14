@@ -1,9 +1,11 @@
 require 'sinatra'
 require 'sinatra/reloader'
+require "json"
 
 get "/" do
-  @title = "sinatra_memo_app"
-  @content = "メモアプリ"
+  File.open("data.json") do |f|
+    @comments = JSON.load(f)
+  end
   erb :index
 end
 

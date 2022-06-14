@@ -2,9 +2,14 @@
 <html lang="ja">
 <head>
     <mata charset="utf-8">
-    <title><%= @title %></title>
+    <title>メモアプリ</title>
 </head>
 <body>
-    <h1><%= @content %></h1>
+    <h1>メモアプリ</h1>
+    <ul>
+        <% @comments.each_value do |value| %>
+        <li><%= value["comment_title"] %></li>
+        <% end %>
+    </ul>
 </body>
 </html>
