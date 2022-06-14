@@ -2,17 +2,25 @@ require 'sinatra'
 require 'sinatra/reloader'
 
 get "/" do
+  @title = "sinatra_memo_app"
+  @content = "メモアプリ"
   erb :index
 end
 
-get '/hello' do
-  content_type :json
-  data= {
-      message: "Hello"
-  }
-  data.to_json
+get "/new" do
+  @title = "sinatra_memo_app"
+  @content = "メモアプリ"
+  erb :new
 end
 
-get '/erb_template_page' do
-  erb :erb_template_page
+get "/show" do
+  @title = "sinatra_memo_app"
+  @content = "メモアプリ"
+  erb :show
+end
+
+get "/edit" do
+  @title = "sinatra_memo_app"
+  @content = "メモアプリ"
+  erb :edit
 end
