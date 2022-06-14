@@ -4,8 +4,9 @@ require "json"
 
 get "/" do
   File.open("data.json") do |f|
-    @comments = JSON.load(f)
+    @comments = JSON.load(f)["comment_data"]
   end
+  @comments_number = @comments.size - 1
   erb :index
 end
 

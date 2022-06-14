@@ -7,9 +7,9 @@
 <body>
     <h1>メモアプリ</h1>
     <ul>
-        <% @comments.each_value do |value| %>
-        <li><%= value["comment_title"] %></li>
-        <% end %>
+    <% (0..@comments_number).each do |n| %>
+        <li><%= @comments[n]["comment_title"] %></li>
+    <% end %>
     </ul>
 </body>
 </html>
