@@ -7,8 +7,8 @@
 <body>
     <h1>メモアプリ</h1>
     <ul>
-    <% (0..@comments_number).each do |n| %>
-        <li><%= @comments[n]["comment_title"] %></li>
+    <% @memos["memos"].each do |memo| %>
+        <li><%= memo["memo_title"] %></li>
     <% end %>
     </ul>
 </body>
