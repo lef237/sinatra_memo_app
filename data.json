@@ -1,18 +1,3 @@
-// {
-//   "memos": [
-//     {
-//       "memo_id": 1 ,
-//       "memo_title": "メモタイトル1",
-//       "memo_content": "メモ本文1"
-//     },
-//     {
-//       "memo_id": 2 ,
-//       "memo_title": "メモタイトル2",
-//       "memo_content": "メモ本文2"
-//     }
-//   ]
-// }
-
 [
   {
     "memo_id": 1 ,

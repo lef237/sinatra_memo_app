@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <mata charset="utf-8">
-    <title><%= @title %></title>
+    <meta charset="utf-8">
+    <title>メモアプリ</title>
 </head>
 <body>
-    <h1><%= @content %></h1>
+    <h1>メモアプリ</h1>
+    <form method="POST" action="/">
+        <input type="text" name="memo_title" placeholder="ここにタイトルを入力">
+        <textarea name="memo_content" placeholder="メモ本文を入力" cols="50" rows="10"></textarea>
+        <button type="submit">送信</button>
+    </form>
 </body>
 </html>
