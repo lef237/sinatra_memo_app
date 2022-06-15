@@ -21,15 +21,18 @@ post "/" do
   open("data.json", "w") do |file|
     JSON.dump(memos, file)
   end
+  redirect to('/')
 end
 
 get "/new" do
   erb :new
 end
 
-get "/show" do
-  @title = "sinatra_memo_app"
-  @content = "メモアプリ"
+get "/show/:id" do
+  File.open("data.json") do |f|
+    @memos = JSON.load(f)
+  end
+  @memo = @memos[params[:id].to_i]
   erb :show
 end
 
