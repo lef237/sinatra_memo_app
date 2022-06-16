@@ -6,8 +6,15 @@
 </head>
 <body>
     <h1>メモアプリ</h1>
+    <form method="POST" action="/">
+        <input type="text" name="memo_title" value=<%=@memo["memo_title"]%>>
+        <textarea name="memo_content"  cols="50" rows="10"><%=@memo["memo_content"]%></textarea>
+        <button type="submit">送信</button>
+    </form>
 </body>
 </html>
+
+<%=@memo["memo_content"]%>
 
 IDを頼りにデータを引っ張ってくる
 

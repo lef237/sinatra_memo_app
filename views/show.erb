@@ -10,6 +10,11 @@
     改行できる↓
     <%= @memo["memo_content"].gsub(/\n/, '<br/>') %>
 
+    <form action="/edit/<%= @id %>" method="get">
+        <%# <input type="hidden" name="_method" value="PATCH"> %>
+        <input type="submit" value="編集">
+    </form>
+
     <form method="post" action="/show/<%= @id %>">
         <input type="hidden" name="_method" value="DELETE">
         <input type="submit" value="削除">

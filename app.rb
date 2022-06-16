@@ -46,16 +46,27 @@ delete "/show/:id" do
   redirect to('/')
 end
 
-delete '/show/:id' do
-  memos = File.open("data.json") { |f| JSON.load(f) }
-  memos.delete(:id)
-  open("data.json", "w") do |file|
-    JSON.dump(memos, file)
-  end
-  redirect to('/')
-end
+# delete '/show/:id' do
+#   memos = File.open("data.json") { |f| JSON.load(f) }
+#   memos.delete(:id)
+#   open("data.json", "w") do |file|
+#     JSON.dump(memos, file)
+#   end
+#   redirect to('/')
+# end
 
 get "/edit/:id" do
+  File.open("data.json") do |f|
+    @memos = JSON.load(f)
+  end
+  @memo = @memos[params[:id].to_i]
+  erb :edit
+end
 
+post "/edit/:id" do
+  File.open("data.json") do |f|
+    @memos = JSON.load(f)
+  end
+  @memo = @memos[params[:id].to_i]
   erb :edit
 end
