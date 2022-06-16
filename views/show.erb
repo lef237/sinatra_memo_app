@@ -6,6 +6,16 @@
 </head>
 <body>
     <h1>メモアプリ</h1>
-    <%= @memo %>
+    <%= @memo["memo_title"] %><br>
+    改行できる↓
+    <%= @memo["memo_content"].gsub(/\n/, '<br/>') %>
+
+    <form method="post" action="/show/<%= @id %>">
+        <input type="hidden" name="_method" value="DELETE">
+        <input type="submit" value="削除">
+    </form>
 </body>
 </html>
+
+変更ボタン→エディットをGET
+削除ボタン→DELETEでルーティング

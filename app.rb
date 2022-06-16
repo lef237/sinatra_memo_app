@@ -29,6 +29,7 @@ get "/new" do
 end
 
 get "/show/:id" do
+  @id = params[:id].to_i
   File.open("data.json") do |f|
     @memos = JSON.load(f)
   end
@@ -36,8 +37,25 @@ get "/show/:id" do
   erb :show
 end
 
-get "/edit" do
-  @title = "sinatra_memo_app"
-  @content = "メモアプリ"
+delete "/show/:id" do
+  memos = File.open("data.json") { |f| JSON.load(f) }
+  memos.delete_at(params["id"].to_i)
+  open("data.json", "w") do |file|
+    JSON.dump(memos, file)
+  end
+  redirect to('/')
+end
+
+delete '/show/:id' do
+  memos = File.open("data.json") { |f| JSON.load(f) }
+  memos.delete(:id)
+  open("data.json", "w") do |file|
+    JSON.dump(memos, file)
+  end
+  redirect to('/')
+end
+
+get "/edit/:id" do
+
   erb :edit
 end
