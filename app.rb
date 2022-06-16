@@ -59,14 +59,28 @@ get "/edit/:id" do
   File.open("data.json") do |f|
     @memos = JSON.load(f)
   end
-  @memo = @memos[params[:id].to_i]
+  @memo = @memos[params['id'].to_i]
   erb :edit
 end
 
-post "/edit/:id" do
-  File.open("data.json") do |f|
-    @memos = JSON.load(f)
+patch "/" do
+  memos = File.open("data.json") { |f| JSON.load(f) }
+  memo_id = params[:memo_id].to_i
+  memo_title = params[:memo_title]
+  memo_content = params[:memo_content]
+  memos[memo_id] = {"memo_title" =>memo_title, "memo_content" =>memo_content}
+
+  open("data.json", "w") do |file|
+    JSON.dump(memos, file)
   end
-  @memo = @memos[params[:id].to_i]
-  erb :edit
+  redirect to('/')
 end
+
+
+# post "/edit/:id" do
+#   File.open("data.json") do |f|
+#     @memos = JSON.load(f)
+#   end
+#   @memo = @memos[params[:id].to_i]
+#   erb :edit
+# end
