@@ -68,7 +68,7 @@ patch "/" do
   memo_id = params[:memo_id].to_i
   memo_title = params[:memo_title]
   memo_content = params[:memo_content]
-  memos[memo_id] = {"memo_title" =>memo_title, "memo_content" =>memo_content}
+  memos[memo_id] = {"memo_id" =>memo_id, "memo_title" =>memo_title, "memo_content" =>memo_content}
 
   open("data.json", "w") do |file|
     JSON.dump(memos, file)
