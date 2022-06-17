@@ -8,8 +8,8 @@
 <body>
     <h1>メモアプリ</h1>
     <h2><%= @memo["memo_title"] %><br></h2>
-    <%# 改行できる↓ %>
 
+    <%# 改行を表示できるようにした↓ %>
     <div class="memo-content">
         <%= @memo["memo_content"].gsub(/\n/, '<br/>') %>
     </div>
