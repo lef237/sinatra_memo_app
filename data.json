@@ -1,11 +1,9 @@
 [
   {
-    "memo_id": 0 ,
     "memo_title": "メモタイトル0",
     "memo_content": "メモ本文0"
   },
   {
-    "memo_id": 1 ,
     "memo_title": "メモタイトル1",
     "memo_content": "メモ本文1"
   }
