@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
 # gem "rails"
 
-gem 'sinatra'
-gem 'puma'
-gem 'sinatra-contrib'
 gem 'json'
+gem 'puma'
+gem 'sinatra'
+gem 'sinatra-contrib'

@@ -1,65 +1,65 @@
 require 'sinatra'
 require 'sinatra/reloader'
-require "json"
+require 'json'
 
-get "/" do
-  File.open("data.json") do |f|
+get '/' do
+  File.open('data.json') do |f|
     @memos = JSON.load(f)
   end
   erb :index
 end
 
-post "/" do
-  memos = File.open("data.json") { |f| JSON.load(f) }
+post '/' do
+  memos = File.open('data.json') { |f| JSON.load(f) }
   memo_title = params[:memo_title]
   memo_content = params[:memo_content]
-  hash = {"memo_title" =>memo_title, "memo_content" =>memo_content}
+  hash = { 'memo_title' => memo_title, 'memo_content' => memo_content }
   memos << hash
-  open("data.json", "w") do |file|
+  open('data.json', 'w') do |file|
     JSON.dump(memos, file)
   end
   redirect to('/')
 end
 
-get "/new" do
+get '/new' do
   erb :new
 end
 
-get "/show/:id" do
+get '/show/:id' do
   @id = params[:id].to_i
-  File.open("data.json") do |f|
+  File.open('data.json') do |f|
     @memos = JSON.load(f)
   end
   @memo = @memos[params[:id].to_i]
   erb :show
 end
 
-delete "/show/:id" do
-  memos = File.open("data.json") { |f| JSON.load(f) }
-  memos.delete_at(params["id"].to_i)
-  open("data.json", "w") do |file|
+delete '/show/:id' do
+  memos = File.open('data.json') { |f| JSON.load(f) }
+  memos.delete_at(params['id'].to_i)
+  open('data.json', 'w') do |file|
     JSON.dump(memos, file)
   end
   redirect to('/')
 end
 
-get "/edit/:id" do
+get '/edit/:id' do
   @id = params[:id]
-  File.open("data.json") do |f|
+  File.open('data.json') do |f|
     @memos = JSON.load(f)
   end
   @memo = @memos[params['id'].to_i]
   erb :edit
 end
 
-patch "/" do
-  memos = File.open("data.json") { |f| JSON.load(f) }
+patch '/' do
+  memos = File.open('data.json') { |f| JSON.load(f) }
   memo_id = params[:memo_id].to_i
   memo_title = params[:memo_title]
   memo_content = params[:memo_content]
-  memos[memo_id] = {"memo_id" =>memo_id, "memo_title" =>memo_title, "memo_content" =>memo_content}
+  memos[memo_id] = { 'memo_id' => memo_id, 'memo_title' => memo_title, 'memo_content' => memo_content }
 
-  open("data.json", "w") do |file|
+  open('data.json', 'w') do |file|
     JSON.dump(memos, file)
   end
   redirect to('/')
