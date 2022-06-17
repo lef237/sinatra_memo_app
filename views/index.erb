@@ -8,9 +8,9 @@
     <h1>メモアプリ</h1>
     <ul>
     <% @memos.each do |memo| %>
-    <a href="/show/<%=memo["memo_id"]%>">
-        <li><%= memo["memo_title"] %></li>
-    </a>
+        <li><a href="/show/<%=memo["memo_id"]%>">
+            <%= memo["memo_title"] %>
+        </a></li>
     <% end %>
     </ul>
     <a href="/new">追加</a>
