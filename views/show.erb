@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="/style.css">
-    <title>メモアプリ</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="/style.css">
+  <title>メモアプリ</title>
 </head>
 <body>
-    <h1>メモアプリ</h1>
-    <h2><%= @memo["memo_title"] %><br></h2>
+  <h1>メモアプリ</h1>
+  <h2><%= @memo["memo_title"] %><br></h2>
 
-    <%# 改行を表示できるようにした↓ %>
-    <div class="memo-content">
-        <%= @memo["memo_content"].gsub(/\n/, '<br/>') %>
-    </div>
+  <%# 改行を表示できるようにした↓ %>
+  <div class="memo-content">
+    <%= @memo["memo_content"].gsub(/\n/, '<br/>') %>
+  </div>
 
-    <form class="button" action="/edit/<%= @id %>" method="get">
-        <input type="submit" value="編集">
-    </form>
-    <form class="button" method="post" action="/show/<%= @id %>">
-        <input type="hidden" name="_method" value="DELETE">
-        <input type="submit" value="削除">
-    </form>
+  <form class="button" action="/edit/<%= @id %>" method="get">
+    <input type="submit" value="編集">
+  </form>
+  <form class="button" method="post" action="/show/<%= @id %>">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="submit" value="削除">
+  </form>
 </body>
 </html>

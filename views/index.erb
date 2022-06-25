@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="/style.css">
-    <title>メモアプリ</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="/style.css">
+  <title>メモアプリ</title>
 </head>
 <body>
-    <h1>メモアプリ</h1>
-    <ul>
-    <% @memos.each_with_index do |memo, index| %>
-        <li><a href="/show/<%=index%>">
-            <%= memo["memo_title"] %>
-        </a></li>
-    <% end %>
-    </ul>
-    <a href="/new"><button>追加</button></a>
+  <h1>メモアプリ</h1>
+  <ul>
+  <% @memos.each_with_index do |memo, index| %>
+    <li><a href="/show/<%=index%>">
+      <%= memo["memo_title"] %>
+    </a></li>
+  <% end %>
+  </ul>
+  <a href="/new"><button>追加</button></a>
 </body>
 </html>
