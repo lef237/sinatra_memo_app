@@ -9,7 +9,7 @@
   <h1>メモアプリ</h1>
   <form method="POST" action="/">
   <input type="hidden" name="_method" value="PATCH">
-    <input type="hidden" name="memo_id" value=<%= @id %>>
+    <input type="hidden" name="memo_id" value=<%= @memo_id %>>
     <h2><input type="text" name="memo_title" value=<%=@memo["memo_title"]%>></h2>
     <textarea name="memo_content"  cols="50" rows="10"><%=@memo["memo_content"]%></textarea>
     <br>

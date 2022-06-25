@@ -14,10 +14,10 @@
     <%= @memo["memo_content"].gsub(/\n/, '<br/>') %>
   </div>
 
-  <form class="button" action="/edit/<%= @id %>" method="get">
+  <form class="button" action="/edit/<%= @memo_id %>" method="get">
     <input type="submit" value="編集">
   </form>
-  <form class="button" method="post" action="/show/<%= @id %>">
+  <form class="button" method="post" action="/show/<%= @memo_id %>">
     <input type="hidden" name="_method" value="DELETE">
     <input type="submit" value="削除">
   </form>
