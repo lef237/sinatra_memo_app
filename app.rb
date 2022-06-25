@@ -3,6 +3,8 @@
 require 'sinatra'
 require 'sinatra/reloader'
 require 'json'
+require "erb"
+include ERB::Util
 
 DATA_JSON = 'data.json'
 
@@ -13,8 +15,8 @@ end
 
 post '/' do
   memos = File.open(DATA_JSON) { |f| JSON.parse(f.read) }
-  memo_title = params[:memo_title]
-  memo_content = params[:memo_content]
+  memo_title = h(params[:memo_title])
+  memo_content = h(params[:memo_content])
   hash = { 'memo_title' => memo_title, 'memo_content' => memo_content }
   memos << hash
   File.open(DATA_JSON, 'w') do |file|
@@ -28,17 +30,17 @@ get '/new' do
 end
 
 get '/show/:memo_id' do
-  @memo_id = params[:memo_id].to_i
+  @memo_id = h(params[:memo_id]).to_i
   File.open(DATA_JSON) do |f|
     @memos = JSON.parse(f.read)
   end
-  @memo = @memos[params[:memo_id].to_i]
+  @memo = @memos[h(params[:memo_id]).to_i]
   erb :show
 end
 
 delete '/show/:memo_id' do
   memos = File.open(DATA_JSON) { |f| JSON.parse(f.read) }
-  memos.delete_at(params['memo_id'].to_i)
+  memos.delete_at(h(params['memo_id']).to_i)
   File.open(DATA_JSON, 'w') do |file|
     JSON.dump(memos, file)
   end
@@ -46,19 +48,19 @@ delete '/show/:memo_id' do
 end
 
 get '/edit/:memo_id' do
-  @memo_id = params[:memo_id]
+  @memo_id = h(params[:memo_id])
   File.open(DATA_JSON) do |f|
     @memos = JSON.parse(f.read)
   end
-  @memo = @memos[params['memo_id'].to_i]
+  @memo = @memos[h(params['memo_id']).to_i]
   erb :edit
 end
 
 patch '/' do
   memos = File.open(DATA_JSON) { |f| JSON.parse(f.read) }
-  memo_id = params[:memo_id].to_i
-  memo_title = params[:memo_title]
-  memo_content = params[:memo_content]
+  memo_id = h(params[:memo_id]).to_i
+  memo_title = h(params[:memo_title])
+  memo_content = h(params[:memo_content])
   memos[memo_id] = { 'memo_id' => memo_id, 'memo_title' => memo_title, 'memo_content' => memo_content }
 
   File.open(DATA_JSON, 'w') do |file|
