@@ -1,8 +1,8 @@
 <ul>
-<% @memos.each_with_index do |memo, index| %>
-  <li><a href="/memos/<%=index%>">
-    <%= memo["memo_title"] %>
-  </a></li>
-<% end %>
+  <% @memos.each do |memo_id, memo_value| %>
+    <li><a href="/memos/<%=memo_id%>">
+      <%= memo_value["memo_title"] %>
+    </a></li>
+  <% end %>
 </ul>
 <a href="memos/new"><button>追加</button></a>

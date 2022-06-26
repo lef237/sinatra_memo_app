@@ -8,17 +8,21 @@ include ERB::Util
 
 DATA_JSON = 'data.json'
 
+def open_json
+  File.open(DATA_JSON) { |f| JSON.parse(f.read) }
+end
+
 get '/memos' do
-  @memos = File.open(DATA_JSON) { |f| JSON.parse(f.read) }
+  @memos = open_json
   erb :index
 end
 
 post '/memos' do
-  memos = File.open(DATA_JSON) { |f| JSON.parse(f.read) }
+  memos = open_json
+  memo_id = memos.keys.map{|memo_id| memo_id.to_i}.max + 1
   memo_title = h(params[:memo_title])
   memo_content = h(params[:memo_content])
-  hash = { 'memo_title' => memo_title, 'memo_content' => memo_content }
-  memos << hash
+  memos[memo_id] = { 'memo_title' => memo_title, 'memo_content' => memo_content }
   File.open(DATA_JSON, 'w') do |file|
     JSON.dump(memos, file)
   end
@@ -30,38 +34,34 @@ get '/memos/new' do
 end
 
 get '/memos/:memo_id' do
-  @memo_id = h(params[:memo_id]).to_i
-  File.open(DATA_JSON) do |f|
-    @memos = JSON.parse(f.read)
-  end
-  @memo = @memos[h(params[:memo_id]).to_i]
+  @memos = open_json
+  @memo_id = params[:memo_id]
+  @memo = @memos[h(params['memo_id'])]
   erb :show
 end
 
 delete '/memos/:memo_id' do
-  memos = File.open(DATA_JSON) { |f| JSON.parse(f.read) }
-  memos.delete_at(h(params['memo_id']).to_i)
+  memos = open_json
+  memos.delete(h(params['memo_id']))
   File.open(DATA_JSON, 'w') do |file|
     JSON.dump(memos, file)
   end
-  redirect to('memos/')
+  redirect to('/memos')
 end
 
 get '/memos/:memo_id/edit' do
   @memo_id = h(params[:memo_id])
-  File.open(DATA_JSON) do |f|
-    @memos = JSON.parse(f.read)
-  end
-  @memo = @memos[h(params['memo_id']).to_i]
+  @memos = open_json
+  @memo = @memos[h(params['memo_id'])]
   erb :edit
 end
 
 patch '/memos/:memo_id' do
-  memos = File.open(DATA_JSON) { |f| JSON.parse(f.read) }
-  memo_id = h(params[:memo_id]).to_i
+  memos = open_json
+  memo_id = h(params[:memo_id])
   memo_title = h(params[:memo_title])
   memo_content = h(params[:memo_content])
-  memos[memo_id] = { 'memo_id' => memo_id, 'memo_title' => memo_title, 'memo_content' => memo_content }
+  memos[memo_id] = { 'memo_title' => memo_title, 'memo_content' => memo_content }
 
   File.open(DATA_JSON, 'w') do |file|
     JSON.dump(memos, file)
