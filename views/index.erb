@@ -1,8 +1,8 @@
 <ul>
 <% @memos.each_with_index do |memo, index| %>
-  <li><a href="/show/<%=index%>">
+  <li><a href="/memos/<%=index%>">
     <%= memo["memo_title"] %>
   </a></li>
 <% end %>
 </ul>
-<a href="/new"><button>追加</button></a>
+<a href="memos/new"><button>追加</button></a>

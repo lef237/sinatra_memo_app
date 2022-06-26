@@ -18,6 +18,6 @@ $ bundle install
 ```
 $ bundle exec ruby app.rb
 ```
-6. Access `http://localhost:4567` with your browser.
+6. Access `http://localhost:4567/memos` with your browser.
 
 7. Mission Complete!!

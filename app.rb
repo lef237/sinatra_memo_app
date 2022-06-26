@@ -8,12 +8,12 @@ include ERB::Util
 
 DATA_JSON = 'data.json'
 
-get '/' do
+get '/memos' do
   @memos = File.open(DATA_JSON) { |f| JSON.parse(f.read) }
   erb :index
 end
 
-post '/' do
+post '/memos' do
   memos = File.open(DATA_JSON) { |f| JSON.parse(f.read) }
   memo_title = h(params[:memo_title])
   memo_content = h(params[:memo_content])
@@ -22,14 +22,14 @@ post '/' do
   File.open(DATA_JSON, 'w') do |file|
     JSON.dump(memos, file)
   end
-  redirect to('/')
+  redirect to('/memos')
 end
 
-get '/new' do
+get '/memos/new' do
   erb :new
 end
 
-get '/show/:memo_id' do
+get '/memos/:memo_id' do
   @memo_id = h(params[:memo_id]).to_i
   File.open(DATA_JSON) do |f|
     @memos = JSON.parse(f.read)
@@ -38,16 +38,16 @@ get '/show/:memo_id' do
   erb :show
 end
 
-delete '/show/:memo_id' do
+delete '/memos/:memo_id' do
   memos = File.open(DATA_JSON) { |f| JSON.parse(f.read) }
   memos.delete_at(h(params['memo_id']).to_i)
   File.open(DATA_JSON, 'w') do |file|
     JSON.dump(memos, file)
   end
-  redirect to('/')
+  redirect to('memos/')
 end
 
-get '/edit/:memo_id' do
+get '/memos/:memo_id/edit' do
   @memo_id = h(params[:memo_id])
   File.open(DATA_JSON) do |f|
     @memos = JSON.parse(f.read)
@@ -56,7 +56,7 @@ get '/edit/:memo_id' do
   erb :edit
 end
 
-patch '/' do
+patch '/memos/:memo_id' do
   memos = File.open(DATA_JSON) { |f| JSON.parse(f.read) }
   memo_id = h(params[:memo_id]).to_i
   memo_title = h(params[:memo_title])
@@ -66,5 +66,5 @@ patch '/' do
   File.open(DATA_JSON, 'w') do |file|
     JSON.dump(memos, file)
   end
-  redirect to('/')
+  redirect to('/memos')
 end

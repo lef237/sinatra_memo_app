@@ -1,4 +1,4 @@
-<form method="POST" action="/">
+<form method="POST" action="/memos/<%= @memo_id %>">
 <input type="hidden" name="_method" value="PATCH">
   <input type="hidden" name="memo_id" value=<%= @memo_id %>>
   <h2><input type="text" name="memo_title" value=<%=@memo["memo_title"]%>></h2>
