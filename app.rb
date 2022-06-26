@@ -3,8 +3,6 @@
 require 'sinatra'
 require 'sinatra/reloader'
 require 'json'
-require 'erb'
-include ERB::Util
 
 DATA_JSON = 'data.json'
 
@@ -23,6 +21,12 @@ def make_memos_from_memo_id(memos, memo_id)
   memo_content = h(params[:memo_content])
   memos[memo_id] = { 'memo_title' => memo_title, 'memo_content' => memo_content }
   memos
+end
+
+helpers do
+  def h(text)
+    Rack::Utils.escape_html(text)
+  end
 end
 
 get '/memos' do
