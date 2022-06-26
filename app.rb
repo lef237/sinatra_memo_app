@@ -3,7 +3,7 @@
 require 'sinatra'
 require 'sinatra/reloader'
 require 'json'
-require "erb"
+require 'erb'
 include ERB::Util
 
 DATA_JSON = 'data.json'
@@ -32,11 +32,11 @@ end
 
 post '/memos' do
   memos = open_json
-  if memos == {}
-    memo_id = 0
-  else
-    memo_id = memos.keys.map{|memo_id| memo_id.to_i}.max + 1
-  end
+  memo_id = if memos == {}
+              0
+            else
+              memos.keys.map(&:to_i).max + 1
+            end
   make_memos_from_memo_id(memos, memo_id)
   write_json(memos)
   redirect to('/memos')
