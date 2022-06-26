@@ -19,7 +19,11 @@ end
 
 post '/memos' do
   memos = open_json
-  memo_id = memos.keys.map{|memo_id| memo_id.to_i}.max + 1
+  if memos == {}
+    memo_id = 0
+  else
+    memo_id = memos.keys.map{|memo_id| memo_id.to_i}.max + 1
+  end
   memo_title = h(params[:memo_title])
   memo_content = h(params[:memo_content])
   memos[memo_id] = { 'memo_title' => memo_title, 'memo_content' => memo_content }
