@@ -12,6 +12,19 @@ def open_json
   File.open(DATA_JSON) { |f| JSON.parse(f.read) }
 end
 
+def write_json(memos)
+  File.open(DATA_JSON, 'w') do |file|
+    JSON.dump(memos, file)
+  end
+end
+
+def make_memos_from_memo_id(memos, memo_id)
+  memo_title = h(params[:memo_title])
+  memo_content = h(params[:memo_content])
+  memos[memo_id] = { 'memo_title' => memo_title, 'memo_content' => memo_content }
+  memos
+end
+
 get '/memos' do
   @memos = open_json
   erb :index
@@ -24,12 +37,8 @@ post '/memos' do
   else
     memo_id = memos.keys.map{|memo_id| memo_id.to_i}.max + 1
   end
-  memo_title = h(params[:memo_title])
-  memo_content = h(params[:memo_content])
-  memos[memo_id] = { 'memo_title' => memo_title, 'memo_content' => memo_content }
-  File.open(DATA_JSON, 'w') do |file|
-    JSON.dump(memos, file)
-  end
+  make_memos_from_memo_id(memos, memo_id)
+  write_json(memos)
   redirect to('/memos')
 end
 
@@ -47,9 +56,7 @@ end
 delete '/memos/:memo_id' do
   memos = open_json
   memos.delete(h(params['memo_id']))
-  File.open(DATA_JSON, 'w') do |file|
-    JSON.dump(memos, file)
-  end
+  write_json(memos)
   redirect to('/memos')
 end
 
@@ -63,12 +70,7 @@ end
 patch '/memos/:memo_id' do
   memos = open_json
   memo_id = h(params[:memo_id])
-  memo_title = h(params[:memo_title])
-  memo_content = h(params[:memo_content])
-  memos[memo_id] = { 'memo_title' => memo_title, 'memo_content' => memo_content }
-
-  File.open(DATA_JSON, 'w') do |file|
-    JSON.dump(memos, file)
-  end
+  make_memos_from_memo_id(memos, memo_id)
+  write_json(memos)
   redirect to('/memos')
 end
