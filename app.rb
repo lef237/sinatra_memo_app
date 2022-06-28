@@ -18,14 +18,6 @@ def write_json(loaded_json)
   end
 end
 
-def define_id(memos)
-  if memos == {}
-    0
-  else
-    memos.keys.map(&:to_i).max + 1
-  end
-end
-
 helpers do
   def h(text)
     Rack::Utils.escape_html(text)
@@ -41,7 +33,7 @@ post '/memos' do
   loaded_json = read_json
   memo_id = loaded_json['id_counter'] + 1
   memo_title = h(params['memo_title'])
-  memo_title = "タイトル未設定" if memo_title == ""
+  memo_title = 'タイトル未設定' if memo_title == ''
   memo_content = h(params['memo_content'])
   loaded_json['memos'] << { 'memo_id' => memo_id, 'memo_title' => memo_title, 'memo_content' => memo_content }
   loaded_json['id_counter'] = memo_id
@@ -85,7 +77,7 @@ patch '/memos/:memo_id' do
   loaded_json = read_json
   memo_id = params['memo_id'].to_i
   memo_title = h(params['memo_title'])
-  memo_title = "タイトル未設定" if memo_title == ""
+  memo_title = 'タイトル未設定' if memo_title == ''
   memo_content = h(params['memo_content'])
   loaded_json['memos'].each do |memo|
     if memo['memo_id'] == memo_id
