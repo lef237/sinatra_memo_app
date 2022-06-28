@@ -1,10 +1,16 @@
 {
-  "0":{
-        "memo_title": "テストタイトル０",
-        "memo_content": "テスト本文０"
-      },
-  "1":{
-        "memo_title": "テストタイトル１",
-        "memo_content": "テスト本文１"
-      }
+  "memos":[
+    {
+      "memo_id": 0,
+      "memo_title": "テストタイトル0",
+      "memo_content": "テスト本文0"
+    },
+    {
+      "memo_id": 1,
+      "memo_title": "テストタイトル1",
+      "memo_content": "テスト本文1"
+    }
+  ],
+
+  "id_counter": 2
 }
