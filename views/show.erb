@@ -1,14 +1,15 @@
-<h2><%= @memo["memo_title"] %><br></h2>
+<h2><%= @memo["memo_title"] %></h2>
 
 <%# 改行を表示できるようにした↓ %>
 <div class="memo-content">
   <%= @memo["memo_content"].gsub(/\n/, '<br/>') %>
 </div>
 
-<form class="button" action="/memos/<%= @memo_id %>/edit" method="get">
-  <input type="submit" value="編集">
-</form>
-<form class="button" method="post" action="/memos/<%= @memo_id %>">
+<a href="/memos/<%= @memo_id %>/edit">
+  <button>編集</button>
+</a>
+
+<form class="button" method="POST" action="/memos/<%= @memo_id %>">
   <input type="hidden" name="_method" value="DELETE">
   <input type="submit" value="削除">
 </form>
