@@ -18,13 +18,6 @@ def write_json(memos)
   end
 end
 
-def make_memos_from_memo_id(memos, memo_id)
-  memo_title = h(params[:memo_title])
-  memo_content = h(params[:memo_content])
-  memos[memo_id] = { 'memo_title' => memo_title, 'memo_content' => memo_content }
-  memos
-end
-
 def define_id(memos)
   if memos == {}
     0
@@ -47,8 +40,8 @@ end
 post '/memos' do
   memos = read_json
   memo_id = define_id(memos)
-  memo_title = h(params[:memo_title])
-  memo_content = h(params[:memo_content])
+  memo_title = h(params['memo_title'])
+  memo_content = h(params['memo_content'])
   memos[memo_id] = { 'memo_title' => memo_title, 'memo_content' => memo_content }
   write_json(memos)
   redirect to('/memos')
@@ -60,7 +53,7 @@ end
 
 get '/memos/:memo_id' do
   memos = read_json
-  @memo_id = params[:memo_id]
+  @memo_id = params['memo_id']
   @memo = memos[params['memo_id']]
   erb :show
 end
@@ -73,7 +66,7 @@ delete '/memos/:memo_id' do
 end
 
 get '/memos/:memo_id/edit' do
-  @memo_id = params[:memo_id]
+  @memo_id = params['memo_id']
   @memos = read_json
   @memo = @memos[params['memo_id']]
   erb :edit
@@ -81,9 +74,9 @@ end
 
 patch '/memos/:memo_id' do
   memos = read_json
-  memo_id = params[:memo_id]
-  memo_title = h(params[:memo_title])
-  memo_content = h(params[:memo_content])
+  memo_id = params['memo_id']
+  memo_title = h(params['memo_title'])
+  memo_content = h(params['memo_content'])
   memos[memo_id] = { 'memo_title' => memo_title, 'memo_content' => memo_content }
   write_json(memos)
   redirect to('/memos')
