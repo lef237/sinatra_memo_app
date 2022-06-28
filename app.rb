@@ -12,9 +12,9 @@ def read_json
   end
 end
 
-def write_json(data_json)
+def write_json(loaded_json)
   File.open(DATA_JSON, 'w') do |file|
-    JSON.dump(data_json, file)
+    JSON.dump(loaded_json, file)
   end
 end
 
@@ -38,13 +38,13 @@ get '/memos' do
 end
 
 post '/memos' do
-  data_json = read_json
-  memo_id = data_json['id_counter'] + 1
+  loaded_json = read_json
+  memo_id = loaded_json['id_counter'] + 1
   memo_title = h(params['memo_title'])
   memo_content = h(params['memo_content'])
-  data_json['memos'] << { 'memo_id' => memo_id, 'memo_title' => memo_title, 'memo_content' => memo_content }
-  data_json['id_counter'] = memo_id
-  write_json(data_json)
+  loaded_json['memos'] << { 'memo_id' => memo_id, 'memo_title' => memo_title, 'memo_content' => memo_content }
+  loaded_json['id_counter'] = memo_id
+  write_json(loaded_json)
   redirect to('/memos')
 end
 
@@ -62,7 +62,7 @@ get '/memos/:memo_id' do
 end
 
 delete '/memos/:memo_id' do
-  memos = read_json
+  loaded_json = read_json
   memos.delete(params['memo_id'])
   write_json(memos)
   redirect to('/memos')
