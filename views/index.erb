@@ -1,7 +1,7 @@
 <ul>
-  <% @memos.each do |memo_id, memo_value| %>
+  <% @memos.each do |memo| %>
     <li>
-      <a href="/memos/<%= memo_id %>"><%= memo_value["memo_title"] %></a>
+      <a href="/memos/<%= memo['memo_id'] %>"><%= memo['memo_title'] %></a>
     </li>
   <% end %>
 </ul>

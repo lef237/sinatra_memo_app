@@ -12,9 +12,9 @@ def read_json
   end
 end
 
-def write_json(memos)
+def write_json(data_json)
   File.open(DATA_JSON, 'w') do |file|
-    JSON.dump(memos, file)
+    JSON.dump(data_json, file)
   end
 end
 
@@ -33,17 +33,18 @@ helpers do
 end
 
 get '/memos' do
-  @memos = read_json
+  @memos = read_json['memos']
   erb :index
 end
 
 post '/memos' do
-  memos = read_json
-  memo_id = define_id(memos)
+  data_json = read_json
+  memo_id = data_json['id_counter'] + 1
   memo_title = h(params['memo_title'])
   memo_content = h(params['memo_content'])
-  memos[memo_id] = { 'memo_title' => memo_title, 'memo_content' => memo_content }
-  write_json(memos)
+  data_json['memos'] << { 'memo_id' => memo_id, 'memo_title' => memo_title, 'memo_content' => memo_content }
+  data_json['id_counter'] = memo_id
+  write_json(data_json)
   redirect to('/memos')
 end
 
@@ -52,9 +53,11 @@ get '/memos/new' do
 end
 
 get '/memos/:memo_id' do
-  memos = read_json
+  memos = read_json['memos']
+  memos.each do |memo|
+    @memo = memo if memo['memo_id'] == params['memo_id'].to_i
+  end
   @memo_id = params['memo_id']
-  @memo = memos[params['memo_id']]
   erb :show
 end
 
