@@ -3,7 +3,6 @@
 require 'sinatra'
 require 'sinatra/reloader'
 require 'json'
-# require 'debug'
 
 DATA_JSON = 'data.json'
 
@@ -42,6 +41,7 @@ post '/memos' do
   loaded_json = read_json
   memo_id = loaded_json['id_counter'] + 1
   memo_title = h(params['memo_title'])
+  memo_title = "タイトル未設定" if memo_title == ""
   memo_content = h(params['memo_content'])
   loaded_json['memos'] << { 'memo_id' => memo_id, 'memo_title' => memo_title, 'memo_content' => memo_content }
   loaded_json['id_counter'] = memo_id
@@ -82,10 +82,10 @@ get '/memos/:memo_id/edit' do
 end
 
 patch '/memos/:memo_id' do
-  # debugger
   loaded_json = read_json
   memo_id = params['memo_id'].to_i
   memo_title = h(params['memo_title'])
+  memo_title = "タイトル未設定" if memo_title == ""
   memo_content = h(params['memo_content'])
   loaded_json['memos'].each do |memo|
     if memo['memo_id'] == memo_id
@@ -93,10 +93,6 @@ patch '/memos/:memo_id' do
       memo['memo_content'] = memo_content
     end
   end
-
-  p loaded_json
-
   write_json(loaded_json)
   redirect to('/memos')
 end
-
