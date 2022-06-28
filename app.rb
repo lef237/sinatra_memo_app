@@ -3,6 +3,7 @@
 require 'sinatra'
 require 'sinatra/reloader'
 require 'json'
+# require 'debug'
 
 DATA_JSON = 'data.json'
 
@@ -53,34 +54,49 @@ get '/memos/new' do
 end
 
 get '/memos/:memo_id' do
+  @memo_id = params['memo_id']
   memos = read_json['memos']
   memos.each do |memo|
     @memo = memo if memo['memo_id'] == params['memo_id'].to_i
   end
-  @memo_id = params['memo_id']
   erb :show
 end
 
 delete '/memos/:memo_id' do
   loaded_json = read_json
-  memos.delete(params['memo_id'])
-  write_json(memos)
+  # 条件に合致した配列を削除する
+  loaded_json['memos'].delete_if do |memo|
+    memo['memo_id'] == params['memo_id'].to_i
+  end
+  write_json(loaded_json)
   redirect to('/memos')
 end
 
 get '/memos/:memo_id/edit' do
   @memo_id = params['memo_id']
-  @memos = read_json
-  @memo = @memos[params['memo_id']]
+  memos = read_json['memos']
+  memos.each do |memo|
+    @memo = memo if memo['memo_id'] == params['memo_id'].to_i
+  end
   erb :edit
 end
 
 patch '/memos/:memo_id' do
-  memos = read_json
-  memo_id = params['memo_id']
+  # debugger
+  loaded_json = read_json
+  memo_id = params['memo_id'].to_i
   memo_title = h(params['memo_title'])
   memo_content = h(params['memo_content'])
-  memos[memo_id] = { 'memo_title' => memo_title, 'memo_content' => memo_content }
-  write_json(memos)
+  loaded_json['memos'].each do |memo|
+    if memo['memo_id'] == memo_id
+      memo['memo_title'] = memo_title
+      memo['memo_content'] = memo_content
+    end
+  end
+
+  p loaded_json
+
+  write_json(loaded_json)
   redirect to('/memos')
 end
+
