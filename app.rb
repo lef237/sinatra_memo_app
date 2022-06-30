@@ -79,12 +79,16 @@ patch '/memos/:memo_id' do
   memo_title = h(params['memo_title'])
   memo_title = 'タイトル未設定' if memo_title == ''
   memo_content = h(params['memo_content'])
-  loaded_json['memos'].each do |memo|
-    if memo['memo_id'] == memo_id
-      memo['memo_title'] = memo_title
-      memo['memo_content'] = memo_content
-    end
+  loaded_json['memos'] = loaded_json['memos'].map do |memo|
+    memo = { 'memo_id' => memo_id, 'memo_title' => memo_title, 'memo_content' => memo_content } if memo['memo_id'] == memo_id
+    memo
   end
+  # loaded_json['memos'].each do |memo|
+  #   if memo['memo_id'] == memo_id
+  #     memo['memo_title'] = memo_title
+  #     memo['memo_content'] = memo_content
+  #   end
+  # end
   write_json(loaded_json)
   redirect to('/memos')
 end
