@@ -46,7 +46,6 @@ get '/memos/new' do
 end
 
 get '/memos/:memo_id' do
-  @memo_id = params['memo_id']
   memos = read_json['memos']
   memos.each do |memo|
     @memo = memo if memo['memo_id'] == params['memo_id'].to_i
@@ -65,7 +64,6 @@ delete '/memos/:memo_id' do
 end
 
 get '/memos/:memo_id/edit' do
-  @memo_id = params['memo_id']
   memos = read_json['memos']
   memos.each do |memo|
     @memo = memo if memo['memo_id'] == params['memo_id'].to_i
