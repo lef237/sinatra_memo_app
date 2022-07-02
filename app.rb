@@ -3,6 +3,7 @@
 require 'sinatra'
 require 'sinatra/reloader'
 require 'json'
+require 'debug'
 
 DATA_JSON = 'data.json'
 
@@ -34,15 +35,23 @@ def add_new_memo(loaded_json, memo_id, memo_title, memo_content)
   write_json(loaded_json)
 end
 
-def change_memo(loaded_json, memo_id, memo_title, memo_content)
-  loaded_json['memos'].each do |memo|
-    if memo['memo_id'] == memo_id
-      memo['memo_title'] = memo_title
-      memo['memo_content'] = memo_content
-    end
-  end
+def change_memo_2(loaded_json, memo_id, memo_title, memo_content)
+  memos = loaded_json['memos']
+  memo = find_memo(memos, memo_id)
+  memo['memo_title'] = memo_title
+  memo['memo_content'] = memo_content
   write_json(loaded_json)
 end
+
+# def change_memo(loaded_json, memo_id, memo_title, memo_content)
+#   loaded_json['memos'].each do |memo|
+#     if memo['memo_id'] == memo_id
+#       memo['memo_title'] = memo_title
+#       memo['memo_content'] = memo_content
+#     end
+#   end
+#   write_json(loaded_json)
+# end
 
 helpers do
   def h(text)
@@ -92,10 +101,11 @@ get '/memos/:memo_id/edit' do
 end
 
 patch '/memos/:memo_id' do
+  debugger
   loaded_json = read_json
   memo_id = params['memo_id'].to_i
   memo_title = params['memo_title'] == '' ? 'タイトル未設定' : params['memo_title']
   memo_content = params['memo_content']
-  change_memo(loaded_json, memo_id, memo_title, memo_content)
+  change_memo_2(loaded_json, memo_id, memo_title, memo_content)
   redirect to('/memos')
 end
