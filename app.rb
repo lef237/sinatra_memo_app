@@ -82,18 +82,21 @@ get '/memos/:memo_id/edit' do
   erb :edit
 end
 
-patch '/memos/:memo_id' do
-  loaded_json = read_json
-  memo_id = params['memo_id'].to_i
-  h(params['memo_title']) == '' ? memo_title = 'タイトル未設定' : memo_title = h(params['memo_title'])
-  memo_content = h(params['memo_content'])
-
+def change_memo(loaded_json, memo_id, memo_title, memo_content)
   loaded_json['memos'].each do |memo|
     if memo['memo_id'] == memo_id
       memo['memo_title'] = memo_title
       memo['memo_content'] = memo_content
     end
   end
+end
+
+patch '/memos/:memo_id' do
+  loaded_json = read_json
+  memo_id = params['memo_id'].to_i
+  h(params['memo_title']) == '' ? memo_title = 'タイトル未設定' : memo_title = h(params['memo_title'])
+  memo_content = h(params['memo_content'])
+  change_memo(loaded_json, memo_id, memo_title, memo_content)
   write_json(loaded_json)
   redirect to('/memos')
 end
