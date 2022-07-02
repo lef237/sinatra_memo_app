@@ -58,8 +58,8 @@ end
 post '/memos' do
   loaded_json = read_json
   memo_id = create_new_id(loaded_json)
-  memo_title = h(params['memo_title']) == '' ? 'タイトル未設定' : h(params['memo_title'])
-  memo_content = h(params['memo_content'])
+  memo_title = params['memo_title'] == '' ? 'タイトル未設定' : params['memo_title']
+  memo_content = params['memo_content']
   add_new_memo(loaded_json, memo_id, memo_title, memo_content)
   redirect to('/memos')
 end
@@ -94,8 +94,8 @@ end
 patch '/memos/:memo_id' do
   loaded_json = read_json
   memo_id = params['memo_id'].to_i
-  memo_title = h(params['memo_title']) == '' ? 'タイトル未設定' : h(params['memo_title'])
-  memo_content = h(params['memo_content'])
+  memo_title = params['memo_title'] == '' ? 'タイトル未設定' : params['memo_title']
+  memo_content = params['memo_content']
   change_memo(loaded_json, memo_id, memo_title, memo_content)
   redirect to('/memos')
 end

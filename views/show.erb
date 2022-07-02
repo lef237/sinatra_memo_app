@@ -1,8 +1,9 @@
-<h2><%= @memo["memo_title"] %></h2>
+<h2><%= h @memo["memo_title"] %></h2>
 
-<%# 改行を表示できるようにした↓ %>
+<%# gsunメソッドで改行を表示できるようにした %>
+<%# ここの処理でhに括弧を付けず、半角スペースを使ってh @memo["memo_content"].gsub(/\n/, '<br/>')にしてしまうと、改行の処理がエスケープされてしまうので注意 %>
 <div class="memo-content">
-  <%= @memo["memo_content"].gsub(/\n/, '<br/>') %>
+  <%= h(@memo["memo_content"]).gsub(/\n/, '<br/>') %>
 </div>
 
 <a href="/memos/<%= @memo['memo_id'] %>/edit">
