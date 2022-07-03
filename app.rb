@@ -31,7 +31,8 @@ end
 
 def add_new_memo(loaded_json, memo_title, memo_content)
   memo_title = memo_title == '' ? 'タイトル未設定' : memo_title
-  loaded_json['memos'] << { 'memo_id' => loaded_json['id_counter'], 'memo_title' => memo_title, 'memo_content' => memo_content }
+  loaded_json['memos'] << { 'memo_id' => loaded_json['id_counter'], 'memo_title' => memo_title,
+                            'memo_content' => memo_content }
   write_json(loaded_json)
 end
 
