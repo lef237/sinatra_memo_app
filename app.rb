@@ -18,8 +18,8 @@ def write_json(loaded_json)
   end
 end
 
-def find_memo(memos, memo_id)
-  memos.find do |memo|
+def find_memo(loaded_json, memo_id)
+  loaded_json['memos'].find do |memo|
     memo['memo_id'] == memo_id
   end
 end
@@ -37,8 +37,7 @@ def add_new_memo(loaded_json, memo_title, memo_content)
 end
 
 def change_memo(loaded_json, memo_id, memo_title, memo_content)
-  memos = loaded_json['memos']
-  memo = find_memo(memos, memo_id)
+  memo = find_memo(loaded_json, memo_id)
   memo['memo_title'] = memo_title
   memo['memo_content'] = memo_content
   write_json(loaded_json)
@@ -76,9 +75,9 @@ get '/memos/new' do
 end
 
 get '/memos/:memo_id' do
-  memos = read_json['memos']
+  loaded_json = read_json
   memo_id = params['memo_id'].to_i
-  @memo = find_memo(memos, memo_id)
+  @memo = find_memo(loaded_json, memo_id)
   erb :show
 end
 
@@ -90,9 +89,9 @@ delete '/memos/:memo_id' do
 end
 
 get '/memos/:memo_id/edit' do
-  memos = read_json['memos']
+  loaded_json = read_json
   memo_id = params['memo_id'].to_i
-  @memo = find_memo(memos, memo_id)
+  @memo = find_memo(loaded_json, memo_id)
   erb :edit
 end
 
