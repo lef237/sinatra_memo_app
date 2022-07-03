@@ -25,12 +25,13 @@ def find_memo(memos, memo_id)
 end
 
 def create_new_id(loaded_json)
-  loaded_json['id_counter'] + 1
+  loaded_json['id_counter'] = loaded_json['id_counter'] + 1
+  write_json(loaded_json)
 end
 
-def add_new_memo(loaded_json, memo_id, memo_title, memo_content)
-  loaded_json['memos'] << { 'memo_id' => memo_id, 'memo_title' => memo_title, 'memo_content' => memo_content }
-  loaded_json['id_counter'] = memo_id
+def add_new_memo(loaded_json, memo_title, memo_content)
+  memo_title = memo_title == '' ? 'タイトル未設定' : memo_title
+  loaded_json['memos'] << { 'memo_id' => loaded_json['id_counter'], 'memo_title' => memo_title, 'memo_content' => memo_content }
   write_json(loaded_json)
 end
 
@@ -39,6 +40,13 @@ def change_memo(loaded_json, memo_id, memo_title, memo_content)
   memo = find_memo(memos, memo_id)
   memo['memo_title'] = memo_title
   memo['memo_content'] = memo_content
+  write_json(loaded_json)
+end
+
+def delete_memo(loaded_json, memo_id)
+  loaded_json['memos'].delete_if do |memo|
+    memo['memo_id'] == memo_id
+  end
   write_json(loaded_json)
 end
 
@@ -55,10 +63,10 @@ end
 
 post '/memos' do
   loaded_json = read_json
-  memo_id = create_new_id(loaded_json)
-  memo_title = params['memo_title'] == '' ? 'タイトル未設定' : params['memo_title']
+  create_new_id(loaded_json)
+  memo_title = params['memo_title']
   memo_content = params['memo_content']
-  add_new_memo(loaded_json, memo_id, memo_title, memo_content)
+  add_new_memo(loaded_json, memo_title, memo_content)
   redirect to('/memos')
 end
 
@@ -75,10 +83,8 @@ end
 
 delete '/memos/:memo_id' do
   loaded_json = read_json
-  loaded_json['memos'].delete_if do |memo|
-    memo['memo_id'] == params['memo_id'].to_i
-  end
-  write_json(loaded_json)
+  memo_id = params['memo_id'].to_i
+  delete_memo(loaded_json, memo_id)
   redirect to('/memos')
 end
 
