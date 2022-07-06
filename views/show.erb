@@ -1,0 +1,16 @@
+<h2><%= h @memo["memo_title"] %></h2>
+
+<%# gsubメソッドで改行を表示できるようにした %>
+<%# ここの処理でhに括弧を付けず、半角スペースを使ってh @memo["memo_content"].gsub(/\n/, '<br/>')にしてしまうと、改行の処理がエスケープされてしまうので注意 %>
+<div class="memo-content">
+  <%= h(@memo["memo_content"]).gsub(/\n/, '<br/>') %>
+</div>
+
+<a href="/memos/<%= @memo['memo_id'] %>/edit">
+  <button>編集</button>
+</a>
+
+<form class="button" method="POST" action="/memos/<%= @memo['memo_id'] %>">
+  <input type="hidden" name="_method" value="DELETE">
+  <input type="submit" value="削除">
+</form>
