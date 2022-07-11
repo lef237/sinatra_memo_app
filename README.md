@@ -16,6 +16,7 @@ $ bundle install
 ```
 5. Configuring PostgreSQL.
 First, install PostgreSQL on Linux. If you are using WSL2, refer to the following link.
+
 [Add or connect a database with WSL | Microsoft Docs](https://docs.microsoft.com/en-us/windows/wsl/tutorials/wsl-database)
 
 Next, execute the following command on the terminal.
