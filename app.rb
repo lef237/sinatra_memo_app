@@ -5,8 +5,7 @@ require 'sinatra/reloader'
 require 'pg'
 
 def receive_memos(conn)
-  # debugger
-  all_memos = conn.exec( "select * from memos" ) do |result|
+  conn.exec('select * from memos') do |result|
     result.map do |row|
       row
     end
@@ -15,24 +14,25 @@ end
 
 def add_new_memo(conn, memo_title, memo_content)
   memo_title = memo_title == '' ? 'タイトル未設定' : memo_title
-  conn.exec( "insert into memos (memo_title, memo_content) values ($1, $2)", [memo_title, memo_content] )
+  conn.exec('insert into memos (memo_title, memo_content) values ($1, $2)', [memo_title, memo_content])
 end
 
 def select_memo(conn, memo_id)
-  result = conn.exec( "select * from memos where memo_id = $1", [memo_id])
-  memo_array = result.each do |memo|
+  result = conn.exec('select * from memos where memo_id = $1', [memo_id])
+  memo_array = result.map do |memo|
     memo
   end
   memo_array[0]
 end
 
 def delete_memo(conn, memo_id)
-  conn.exec( "delete from memos where memo_id = $1", [memo_id])
+  conn.exec('delete from memos where memo_id = $1', [memo_id])
 end
 
 def update_memo(conn, memo_id, memo_title, memo_content)
   memo_title = memo_title == '' ? 'タイトル未設定' : memo_title
-  conn.exec( "update memos set memo_title = $1, memo_content = $2 where memo_id = $3", [memo_title, memo_content, memo_id])
+  conn.exec('update memos set memo_title = $1, memo_content = $2 where memo_id = $3',
+            [memo_title, memo_content, memo_id])
 end
 
 helpers do
@@ -41,7 +41,7 @@ helpers do
   end
 end
 
-conn = PG.connect( dbname: 'memo_db' )
+conn = PG.connect(dbname: 'memo_db')
 
 get '/memos' do
   @memos = receive_memos(conn)
