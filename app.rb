@@ -5,7 +5,7 @@ require 'sinatra/reloader'
 require 'pg'
 
 def receive_memos(conn)
-  conn.exec('select * from memos') do |result|
+  conn.exec('select * from memos order by memo_id') do |result|
     result.map do |row|
       row
     end
