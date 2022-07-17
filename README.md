@@ -22,6 +22,7 @@ First, install PostgreSQL on Linux.
 brew install postgresql
 brew services start postgresql
 psql postgres
+postgres=# create user postgres SUPERUSER;
 postgres=# create database memo_db;
 postgres=# \c memo_db
 memo_db=# create table memos (memo_id serial primary key, memo_title varchar(20), memo_content varchar(400));
