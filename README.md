@@ -15,7 +15,19 @@ $ gem install bundler
 $ bundle install
 ```
 5. Configuring PostgreSQL.
-First, install PostgreSQL on Linux. If you are using WSL2, refer to the following link.
+First, install PostgreSQL on Linux.
+
+### If you are using MacOS, execute the following command on the terminal.
+```
+brew install postgresql
+brew services start postgresql
+psql postgres
+postgres=# create database memo_db;
+postgres=# \c memo_db
+memo_db=# create table memos (memo_id serial primary key, memo_title varchar(20), memo_content varchar(400));
+```
+
+### If you are using WSL2(Linux), refer to the following link.
 
 [Add or connect a database with WSL | Microsoft Docs](https://docs.microsoft.com/en-us/windows/wsl/tutorials/wsl-database)
 
