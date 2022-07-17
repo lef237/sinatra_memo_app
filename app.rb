@@ -6,9 +6,7 @@ require 'pg'
 
 def receive_memos(conn)
   conn.exec('select * from memos order by memo_id') do |result|
-    result.map do |row|
-      row
-    end
+    result.to_a
   end
 end
 
@@ -19,10 +17,7 @@ end
 
 def select_memo(conn, memo_id)
   result = conn.exec('select * from memos where memo_id = $1', [memo_id])
-  memo_array = result.map do |memo|
-    memo
-  end
-  memo_array[0]
+  memo_array = result.to_a[0]
 end
 
 def delete_memo(conn, memo_id)
