@@ -17,7 +17,7 @@ end
 
 def select_memo(conn, memo_id)
   result = conn.exec('select * from memos where memo_id = $1', [memo_id])
-  memo_array = result.to_a[0]
+  result.to_a[0]
 end
 
 def delete_memo(conn, memo_id)
